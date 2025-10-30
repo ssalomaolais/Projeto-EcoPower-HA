@@ -1,0 +1,67 @@
+{
+  "retrieve_hass_conf": {
+    "method": "addon",
+    "url": "http://supervisor/core/api",
+    "token": "SUPERVISOR_TOKEN"
+  },
+  "params": {
+    "general": {
+      "name": "EcoPower_HA_EMHASS",
+      "freq": 30,
+      "optimization_time_step": 30,
+      "historic_days_to_retrieve": 7,
+      "prediction_horizon": 48,
+      "method_ts_round": "nearest"
+    },
+    "hass_entities": {
+      "sensor_power_photovoltaics": "sensor.pv_power_total",
+      "sensor_power_load_no_var_loads": "sensor.smart_meter_active_power",
+      "sensor_prod_price_forecast": "none",
+      "sensor_load_cost_forecast": "sensor.tariff_rate",
+      "sensor_prod_cost_forecast": "sensor.feed_in_tariff"
+    },
+    "weather_forecast": {
+      "method": "solcast",
+      "api_key": "SUA_API_KEY_SOLCAST",
+      "latitude": -23.55,
+      "longitude": -46.63,
+      "azimuth": 0,
+      "tilt": 23,
+      "module_model": "Jinko_400W",
+      "inverter_model": "Goodwe_GW6000_ES_G2",
+      "total_number_of_modules": 15,
+      "total_number_of_inverters": 1
+    },
+    "load_forecast": {
+      "method": "mlforecaster",
+      "model": "load_forecast_model.pkl",
+      "model_type": "load",
+      "var_model": "sensor.smart_meter_active_power",
+      "sklearn_model": "LGBMRegressor",
+      "num_lags": 48,
+      "split_date_delta": "24h"
+    },
+    "optimization_parameters": {
+      "pv_power_forecast_method": "weather_forecast",
+      "load_power_forecast_method": "load_forecast",
+      "load_cost_forecast_method": "cop_positive_price",
+      "prod_price_forecast_method": "constant",
+      "set_use_battery": true,
+      "battery_nominal_capacity_kwh": 5.4,
+      "battery_minimum_state_of_charge": 0.20,
+      "battery_maximum_state_of_charge": 0.95,
+      "battery_target_state_of_charge": 0.50,
+      "battery_charge_efficiency": 0.95,
+      "battery_discharge_efficiency": 0.95,
+      "battery_nominal_charge_power_kw": 3.0,
+      "battery_nominal_discharge_power_kw": 3.0
+    },
+    "publish_data_local": {
+      "load_forecast_entity": true,
+      "pv_forecast_entity": true,
+      "battery_forecast_entity": true,
+      "grid_forecast_entity": true,
+      "cost_forecast_entity": true
+    }
+  }
+}
