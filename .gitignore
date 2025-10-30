@@ -1,0 +1,19 @@
+# Home Assistant
+__pycache__/
+*.pyc
+/deps/
+/www/
+secrets.yaml
+home-assistant.log
+home-assistant_v2.db
+configuration.yaml.bak
+automations.yaml.bak
+groups.yaml.bak
+scripts.yaml.bak
+scenes.yaml.bak
+
+# Configurações locais
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
