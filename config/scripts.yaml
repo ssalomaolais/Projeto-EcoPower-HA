@@ -1,0 +1,39 @@
+# scripts.yaml
+# Contém sequências de ações (scripts) que podem ser chamadas pelo dashboard ou por voz.
+
+modo_economia_maxima:
+  alias: 'EcoPower-HA - Ativar Modo de Economia Máxima'
+  description: 'Prioriza o uso da bateria e solar, evitando a rede.'
+  sequence:
+    # 1. Mudar o modo de trabalho do inversor para priorizar bateria
+    - service: select.set_option
+      target:
+        entity_id: select.inverter_work_mode
+      data:
+        option: 'Eco Mode' # Ou o modo correspondente na sua integração
+    
+    # 2. Desligar cargas não essenciais (ex: aquecedor de piscina)
+    - service: switch.turn_off
+      target:
+        entity_id: switch.aquecedor_piscina
+
+    # 3. Enviar uma notificação de confirmação
+    - service: notify.mobile_app_seu_celular # Mude para sua entidade de notificação
+      data:
+        message: "Modo de Economia Máxima ativado. Priorizando bateria e solar."
+  icon: mdi:leaf
+
+carregar_veiculo_com_sol:
+  alias: 'EcoPower-HA - Carregar Veículo com Excesso Solar'
+  description: 'Inicia o carregamento do VE apenas se houver sol suficiente.'
+  sequence:
+    - condition: numeric_state
+      entity_id: sensor.smart_meter_active_power # Potência da rede
+      below: -2000 # Exportando mais de 2kW
+    - service: switch.turn_on
+      target:
+        entity_id: switch.carregador_ve
+    - service: notify.mobile_app_seu_celular
+      data:
+        message: "Excesso de sol detectado. Iniciando carregamento do veículo."
+  icon: mdi:solar-power
