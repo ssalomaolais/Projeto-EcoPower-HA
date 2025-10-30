@@ -4,7 +4,9 @@
 
 Este repositório contém todos os arquivos de configuração, documentação e scripts para o Projeto EcoPower-HA, uma solução integrada para a gestão inteligente de energia residencial. O projeto combina hardware de ponta da Goodwe com a plataforma open-source Home Assistant para criar um ecossistema energético otimizado, preditivo e resiliente
 
-[![Link do Vídeo](https://img.shields.io/badge/YouTube-Ver%20Demo-red)](https://drive.google.com/drive/folders/19sxWOW9wanqnKJh2YNx2gfP4HSUO73ZX?usp=sharing)) ## 🎯 Sobre o Projeto
+[![Link do Vídeo](https://img.shields.io/badge/YouTube-Ver%20Demo-red)](https://drive.google.com/drive/folders/19sxWOW9wanqnKJh2YNx2gfP4HSUO73ZX?usp=sharing)) 
+
+## 🎯 Sobre o Projeto
 
 Este projeto responde ao desafio de criar uma solução energética que transcende o monitoramento padrão. Integramos inversores e baterias Goodwe com o Home Assistant para otimizar o autoconsumo, a eficiência energética e introduzir uma camada de inteligência preditiva usando machine learning (ML) e automações avançadas de *Demand-Side Management* (DSM).
 
