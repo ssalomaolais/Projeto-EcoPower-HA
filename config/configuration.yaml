@@ -1,0 +1,37 @@
+# Arquivo de configuração principal do Home Assistant para o Projeto EcoPower-HA
+
+# Configuração básica
+default_config:
+
+# Permite que o Home Assistant Cloud (Nabu Casa) funcione para acesso remoto e integração de voz
+# https://www.nabucasa.com
+cloud:
+
+# Integração com o Inversor Goodwe (assumindo que já foi configurada pela UI)
+# A integração Goodwe é geralmente configurada via Interface Gráfica (UI).
+# Se você precisar de configuração manual (raro), adicione aqui.
+
+# Integração com InfluxDB para histórico de longo prazo (necessário para ML do EMHASS)
+influxdb:
+  host: a0d7b954-influxdb # Nome do host do Add-on
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: SEU_PASSWORD_INFLUXDB # Coloque isso no secrets.yaml!
+  include:
+    entities:
+      - sensor.smart_meter_active_power
+      - sensor.lynx_battery_soc
+      - sensor.pv_power_total # Sensor de geração FV
+
+# Aponta para arquivos separados para manter a organização
+automation: !include automations.yaml
+script: !include scripts.yaml
+# scene: !include scenes.yaml
+# sensor: !include sensors.yaml
+# group: !include groups.yaml
+
+# Exemplo de configuração para o add-on EMHASS
+emhass:
+  # Configuração do EMHASS (muitos parâmetros são definidos no config_emhass.json do add-on)
+  # Esta seção no configuration.yaml é mais para expor sensores, se necessário.
