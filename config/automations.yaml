@@ -1,0 +1,47 @@
+# automations.yaml
+# Contém as automações do Projeto EcoPower-HA
+
+- alias: 'EcoPower-HA - Peak Shaving Ativo'
+  description: 'Descarrega a bateria para evitar picos de importação da rede acima de 3.5kW'
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.smart_meter_active_power # Sensor do medidor inteligente
+      above: 3500 # Limiar de potência em Watts
+      for:
+        minutes: 1 # Condição deve persistir por 1 minuto para evitar disparos por picos transitórios
+  condition:
+    - condition: numeric_state
+      entity_id: sensor.lynx_battery_soc # Sensor do estado de carga da bateria
+      above: 25 # Garante que há carga suficiente na bateria para a ação
+  action:
+    - service: select.set_option # Serviço da integração Goodwe para mudar o modo de trabalho
+      target:
+        entity_id: select.inverter_work_mode
+      data:
+        option: 'Eco Discharge Mode' # Ativa o modo de descarga da bateria
+    - service: number.set_value # Serviço para definir a potência de descarga
+      target:
+        entity_id: number.inverter_eco_discharge_power
+      data:
+        # Descarrega apenas a potência excedente ao limiar
+        value: '{{ (trigger.to_state.state | int) - 3500 }}'
+  mode: single
+
+# --- Outras automações podem ser adicionadas abaixo ---
+
+- alias: 'EcoPower-HA - Load Shifting Solar'
+  description: 'Liga o carregador do VE quando há excesso de geração solar'
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.smart_meter_active_power # Potência da rede
+      below: -2000 # Exportando mais de 2kW
+      for:
+        minutes: 5 # Por 5 minutos contínuos
+  condition:
+    - condition: state
+      entity_id: switch.carregador_ve # Exemplo de entidade do carregador
+      state: 'off'
+  action:
+    - service: switch.turn_on
+      target:
+        entity_id: switch.carregador_ve
