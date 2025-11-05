@@ -32,7 +32,7 @@ Este projeto responde ao desafio de criar uma solução energética que transcen
 * **Plataforma:** Home Assistant 
 * **Otimização (ML):** EMHASS 
 * **Banco de Dados:** InfluxDB (para dados históricos de ML)
-* *Configuração:** YAML 
+* **Configuração:** YAML 
 * **Protocolos:** Zigbee (Sensores/Plugs), UDP/TCP (Comunicação com Inversor Goodwe) 
 
 ## 🛠️ Estrutura do Repositório 
